@@ -81,6 +81,10 @@ class TodoList
     end
   end
   
+  def item_at(integer)
+    todos.fetch(integer).title
+  end
+  
   protected
   attr_accessor :todos
 
@@ -106,16 +110,23 @@ list.add(todo3)                 # adds todo3 to end of list, returns list
 # ---- Interrogating the list -----
 
 # size
-p list.size                       # returns 3
+list.size                       # returns 3
 
 # first
-p list.first                      # returns todo1, which is the first item in the list
+list.first                      # returns todo1, which is the first item in the list
 
 # last
-p list.last                       # returns todo3, which is the last item in the list
+list.last                       # returns todo3, which is the last item in the list
 
 #to_a
-p list.to_a                      # returns an array of all items in the list
+list.to_a                      # returns an array of all items in the list
 
 #done?
-p list.done?                     # returns true if all todos in the list are done, otherwise false
+list.done?                     # returns true if all todos in the list are done, otherwise false
+
+# ---- Retrieving an item in the list ----
+
+# item_at
+#list.item_at                    # raises ArgumentError
+p list.item_at(1)                 # returns 2nd item in list (zero based index)
+#list.item_at(100)               # raises IndexError
