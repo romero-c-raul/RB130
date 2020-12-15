@@ -71,7 +71,7 @@ class TodoList
   
   def to_a
     todos.map do |current_todo|
-      current_todo.title
+      current_todo
     end
   end
   
@@ -82,7 +82,21 @@ class TodoList
   end
   
   def item_at(integer)
-    todos.fetch(integer).title
+    todos.fetch(integer)
+  end
+  
+  def mark_done_at(integer)
+    todos.fetch(integer).done!
+  end
+  
+  def mark_undone_at(integer)
+    todos.fetch(integer).undone!
+  end
+  
+  def done!
+    todos.each do |current_todo|
+      current_todo.done!
+    end
   end
   
   protected
@@ -128,5 +142,20 @@ list.done?                     # returns true if all todos in the list are done,
 
 # item_at
 #list.item_at                    # raises ArgumentError
-p list.item_at(1)                 # returns 2nd item in list (zero based index)
+list.item_at(1)                 # returns 2nd item in list (zero based index)
 #list.item_at(100)               # raises IndexError
+
+# ---- Marking items in the list -----
+
+# mark_done_at
+#list.mark_done_at               # raises ArgumentError
+list.mark_done_at(1)            # marks the 2nd item as done
+#list.mark_done_at(100)          # raises IndexError
+
+# mark_undone_at
+#list.mark_undone_at             # raises ArgumentError
+list.mark_undone_at(1)          # marks the 2nd item as not done
+#list.mark_undone_at(100)        # raises IndexError
+
+# done!
+list.done!                      # marks all items as done
