@@ -131,6 +131,20 @@ class TodoList
     self
   end
   
+  # def select                        # First attempt
+  #   todos.select do |current_todo|
+  #     yield(current_todo)
+  #   end
+  # end
+  
+  def select
+    selection = []
+    each do |current_todo| 
+      selection << current_todo if yield(current_todo)
+    end
+    selection
+  end
+  
   protected
   attr_accessor :todos
 
@@ -230,13 +244,12 @@ todo2 = Todo.new("Clean room")
 todo3 = Todo.new("Go to gym")
 
 list = TodoList.new("Today's Todos")
-# list.add(todo1)
-# list.add(todo2)
-# list.add(todo3)
-list << todo1
-list << todo2
-list << todo3
+list.add(todo1)
+list.add(todo2)
+list.add(todo3)
 
-list.each do |todo|
-  puts todo                   # calls Todo#to_s
-end
+todo1.done!
+
+results = list.select { |todo| todo.done? }    # you need to implement this method
+
+puts results.inspect
