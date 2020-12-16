@@ -137,12 +137,56 @@ class TodoList
   #   end
   # end
   
+  # def select                        # First Attempt
+  #   selection = []
+  #   each do |current_todo| 
+  #     selection << current_todo if yield(current_todo)
+  #   end
+    
+  #   new_todolist = TodoList.new("Today's New Todos!")
+    
+  #   selection.each do |current_element|
+  #     new_todolist << current_element
+  #   end
+    
+  #   new_todolist
+  # end
+  
   def select
-    selection = []
-    each do |current_todo| 
-      selection << current_todo if yield(current_todo)
+    new_list = TodoList.new("New Todo List!")
+    each do |current_todo|
+      new_list << current_todo if yield(current_todo)
     end
-    selection
+    new_list
+  end
+  
+  def find_by_title(string)
+    select { |todo| todo.title == string }.first
+  end
+  
+  def all_done
+    select { |todo| todo.done? }
+  end
+  
+  def all_not_done
+    select { |todo| todo.done? == false }
+  end
+  
+  def mark_done(string)
+    each do |todo|
+      if todo.title == string
+        todo.done!
+        return
+      end
+    end
+  end
+  
+  def mark_all_done
+    each { |todo| todo.done! }
+  end
+  
+  def mark_all_undone
+    each { |todo| todo.undone! }
   end
   
   protected
@@ -252,4 +296,7 @@ todo1.done!
 
 results = list.select { |todo| todo.done? }    # you need to implement this method
 
-puts results.inspect
+#puts results.inspect
+p list.find_by_title("Go to gym")
+puts list.all_done
+puts list.all_not_done
